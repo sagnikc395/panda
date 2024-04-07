@@ -49,3 +49,23 @@ class LeafNode(HTMLNode):
         else:
             return f"<{self.tag} {super().props_to_html()}> {self.value} </{self.tag}>" 
 
+class ParentNode(HTMLNode):
+    '''
+     handle the nesting of HTML nodes inside of one another. Any HTML node that's not 'leaf' node (ie has children) is a parent node.
+    '''
+    def __init__(self,tag,children):
+        super().__init__(tag,children)
+    
+    def to_html(self):
+        if not self.tag:
+            raise ValueError("parentnode tag not provided")
+        elif not self.children:
+            raise ValueError("parentnode has no children present")
+        else:
+            '''
+            return a string repr of the HTML tag of the node and its children. should be a recusive method (with each recursion using a new node instance). 
+            '''
+            pass 
+
+
+
