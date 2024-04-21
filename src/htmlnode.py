@@ -32,8 +32,8 @@ class LeafNode(HTMLNode):
     the value data member is required.
     """
 
-    def __init__(self, tag, value, props):
-        super().__init__(tag, value, props)
+    def __init__(self, value, tag=None, props=None):  # noqa: E999
+        super().__init__(tag=tag, value=value, props=props)
 
     """
     to_html method should render a leaf node as a HTML string.
@@ -44,12 +44,13 @@ class LeafNode(HTMLNode):
     """
 
     def to_html(self):
-        if not self.value:
-            raise ValueError("leaf node has no value")
-        elif not self.tag:
+        if not self.tag:
             return f"{self.value}"
-        else:
-            return f"<{self.tag} {super().props_to_html()}> {self.value} </{self.tag}>"
+        if not self.value:
+            raise ValueError("All leaf nodes require a value")
+        if not self.props:
+            return f"<{self.tag}>{self.value}</{self.tag}>"
+        return f"<{self.tag} {super().props_to_html()}>{self.value}</{self.tag}>"
 
 
 class ParentNode(HTMLNode):
