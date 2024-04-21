@@ -16,9 +16,13 @@ class TextNode:
         self.url = url
 
     def __eq__(self, other):
-        if self.text == other.text and self.text_type == other.text_type and self.url == other.url:
-            return True 
-        return False    
+        if (
+            self.text == other.text
+            and self.text_type == other.text_type
+            and self.url == other.url
+        ):
+            return True
+        return False
 
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type}, {self.url})"
@@ -36,16 +40,15 @@ class NodeTypes(Enum):
 def text_node_to_html_node(text_node: TextNode):
     if text_node.text_type not in NodeTypes:
         raise Exception("invalid text node type!!!")
-    else:
-        if text_node.text_type == NodeTypes.text_type_text:
-            return LeafNode(text_node.text)
-        elif text_node.text_type == NodeTypes.text_type_bold:
-            return LeafNode("b", text_node.text)
-        elif text_node.text_type == NodeTypes.text_type_italic:
-            return LeafNode("i", text_node.text)
-        elif text_node.text_type == NodeTypes.text_type_code:
-            return LeafNode("code", text_node.text)
-        elif text_node.text_type == NodeTypes.text_type_link:
-            return LeafNode("a", text_node.text, text_node.url)
-        elif text_node.text_type == NodeTypes.text_type_image:
-            return LeafNode("img", "", (text_node.url, text_node.text))
+    if text_node.text_type == NodeTypes.text_type_text:
+        return LeafNode(text_node.text)
+    if text_node.text_type == NodeTypes.text_type_bold:
+        return LeafNode("b", text_node.text)
+    if text_node.text_type == NodeTypes.text_type_italic:
+        return LeafNode("i", text_node.text)
+    if text_node.text_type == NodeTypes.text_type_code:
+        return LeafNode("code", text_node.text)
+    if text_node.text_type == NodeTypes.text_type_link:
+        return LeafNode("a", text_node.text, text_node.url)
+    if text_node.text_type == NodeTypes.text_type_image:
+        return LeafNode("img", "", (text_node.url, text_node.text))
