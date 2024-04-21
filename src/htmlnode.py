@@ -20,6 +20,8 @@ class HTMLNode:
     """
 
     def props_to_html(self):
+        if self.props is None:
+            return ""
         return " ".join([f'{key}="{value}"' for key, value in self.props.items()])
 
     def __repr__(self):
@@ -32,8 +34,8 @@ class LeafNode(HTMLNode):
     the value data member is required.
     """
 
-    def __init__(self, value, tag=None, props=None):  # noqa: E999
-        super().__init__(tag=tag, value=value, props=props)
+    def __init__(self, tag, value, props=None):
+        super().__init__(tag, value, None, props)
 
     """
     to_html method should render a leaf node as a HTML string.
@@ -58,20 +60,20 @@ class ParentNode(HTMLNode):
     handle the nesting of HTML nodes inside of one another. Any HTML node that's not 'leaf' node (ie has children) is a parent node.
     """
 
-    def __init__(self, tag, children):
-        super().__init__(tag, children)
+    def __init__(self, tag, children, props=None):
+        super().__init__(tag, None, children, props)
 
     def to_html(self):
         if not self.tag:
             raise ValueError("parentnode tag not provided")
-        elif not self.children:
+        if not self.children:
             raise ValueError("parentnode has no children present")
-        else:
-            """
-            return a string repr of the HTML tag of the node and its children. should be a recusive method (with each recursion using a new node instance). 
-            """
-            html = f"<{self.tag}>"
-            for child in self.children:
-                html += child.to_html()
-            html += f"</{self.tag}>"
-            return html
+        
+        """
+        return a string repr of the HTML tag of the node and its children. should be a recusive method (with each recursion using a new node instance). 
+        """
+        html = f"<{self.tag}{self.props_to_html()}>"
+        for child in self.children:
+            html += child.to_html()
+        html += f"</{self.tag}>"
+        return html
