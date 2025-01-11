@@ -1,5 +1,5 @@
-## panda 
+## panda
 
-Panda is a SSG written in Python.
+Panda is a Static Site Generator written from scratch in Python.
 
 Made as a part of boot.dev project.
